@@ -8,10 +8,10 @@ class Court:
     _year_bulit: int
 
     def __init__(self, width, lenght, addres, year_bulit):
-        if (width >= 90) and (width <= 120):
+        if (width >= 45) and (width <= 90):
             self._width = width
 
-        if (lenght >= 45) and (lenght <= 90):
+        if (lenght >= 90) and (lenght <= 120):
             self._lenght = lenght
 
         self._addres = addres
@@ -94,7 +94,8 @@ class Court:
         rok = int(rok)
         if int(self._year_bulit) > rok or int(self._year_bulit) < 0:
             self._year_bulit = rok
-
+        return self._year_bulit
+    
 class Stadium(Court):
     name: str
     common_name: str
@@ -107,24 +108,31 @@ class Stadium(Court):
         self.common_name = common_name
         self.capacity = capacity
 
-    '''
-    Czemu nie działa printowanie
-    '''
+    def __eq__(self, other):
+        if self.area() == other.area() and self.capacity == other.capacity:
+            return True
+        return False
+
+    def __ne__(self, other):
+        if self.area() == other.area() and self.capacity == other.capacity:
+            return False
+        return True
+
     def __str__(self):
         if self.common_name == None:
-            return f'Boisko wybudowane w roku {super().year_bulit}, o długości {super()._lenght}' \
-                    f' metrów i szerokości {super()._width} metrów.\n'\
-                    f'Pole powierzchni: {super().area()} mkw.\n'\
-                    f'Adres: {super()._addres}\n'\
-                    f'Nazwa: {self.name}\n'\
-                    f'Pojemność stadionu: {self.capacity} osób.'
+            return f'Boisko wybudowane w roku {self.year_bulit}, o długości {self._lenght}' \
+                   f' metrów i szerokości {self._width} metrów.\n' \
+                   f'Pole powierzchni: {self.area()} mkw.\n' \
+                   f'Adres: {self._addres}\n' \
+                   f'Nazwa: {self.name}\n' \
+                   f'Pojemność stadionu: {self.capacity} osób.'
 
-        return f'Boisko wybudowane w roku {self.year_bulit}, o długości {super()._lenght}' \
-            f' metrów i szerokości {super()._width} metrów.\n'\
-            f'Pole powierzchni: {super().area()} mkw.\n'\
-            f'Adres: {super()._addres}\n'\
+        return f'Boisko wybudowane w roku {self.year_bulit}, o długości {self._lenght}' \
+            f' metrów i szerokości {self._width} metrów.\n'\
+            f'Pole powierzchni: {self.area()} mkw.\n'\
+            f'Adres: {self._addres}\n'\
             f'Nazwa: {self.name}\n'\
-            f'Nazwa zwyczajowa: {self.common_name}.'\
+            f'Nazwa zwyczajowa: {self.common_name}.\n'\
             f'Pojemność stadionu: {self.capacity} osób.'
 
     @property
@@ -138,7 +146,7 @@ class Stadium(Court):
             zablokuj = True
             return self.name
     """
-    (2pt) Zaimplementuj właściwości (propercje) setter i getter dla każdego atrybutu. 
+    3 (2pt) Zaimplementuj właściwości (propercje) setter i getter dla każdego atrybutu. 
     Jeśli dla getterów podane wartości argumentów nie spełniają założeń, 
     wartość atrybutu nie powinna się zmieniać i powinien zostać wypisany odpowiedni komunikat.
     
@@ -167,126 +175,16 @@ print("---")
 print(kort._addres)
 print("---")
 
-stadion = Stadium(100,120,"ADRES",2000,"Nazwa",1005,"Daje")
+stadion = Stadium(90,120,"ADRES",2000,"Nazwa",1005)
+print(f' {stadion._width} {stadion._lenght} ')
+stadion2 = Stadium(90,120,"Adres",2005,"Nazwa",1005)
+print(f' {stadion2._width} {stadion2._lenght} ')
 print(stadion._addres)
 print(stadion)
-# import datetime
+print("---")
+if stadion == stadion2:
+    print("Tak")
+else:
+    print("Nie")
 
-
-# class Court:
-#     width: float = 68
-#     length: float = 150
-#     address: str
-#     year_built: int
-#
-#     def __init__(self, width: float, length: float, address: str, year_built: int) -> None:
-#         if year_built < 2008:
-#             if width >= 90 and width <= 120 and length >= 45 and length <= 90:
-#                 self.length = length
-#                 self.width = width
-#                 self.__length = length
-#                 self.__width = width
-#         if year_built >= 2008:
-#             self.__width = width
-#             self.__length = length
-#         self.address = address
-#         self.year_built = year_built
-#         self.__address = address
-#         self.__year_built = year_built
-#
-#     @property
-#     def width(self):
-#         return self.__width
-#
-#     @width.setter
-#     def width(self, value):
-#         self.__width = value
-#
-#     @property
-#     def length(self):
-#         return self.__length
-#
-#     @length.setter
-#     def length(self, value):
-#         self.__length = value
-#
-#     @property
-#     def address(self):
-#         return self.__address
-#
-#     @address.setter
-#     def address(self, value):
-#         self.__address = value
-#
-#     @property
-#     def _year_built(self) -> int:
-#         return self.__year_built
-#
-#     @_year_built.setter
-#     def year_built(self, value):
-#         self.__year_built = value
-#
-#     @staticmethod
-#     def validate(cls):
-#         if cls.year_built < 0:
-#             cls.year_built = datetime.datetime.now().year
-#         if cls.year_built > datetime.datetime.now().year:
-#             cls.year_built = datetime.datetime.now().year
-#
-#     def area(self) -> float:
-#         return self.width * self.length
-#
-#     def __get__(self, instance, owner):
-#         return self.year_built
-#
-#     def __str__(self):
-#         return f"Boisko wybudowane w roku {self.year_built}, o długości {self.length} metrów i szerokości " \
-#                f"{self.width} metrów.\nPole powierzchni: {Court.area(self)} mkw.\nAdres: {self.address}"
-#
-#     def __eq__(self, other: 'Court'):
-#         if Court.area(self) == other.area():
-#             return True
-#         else:
-#             return False
-#
-#     def __ne__(self, other):
-#         if Court.area(self) != other.area():
-#             return True
-#         else:
-#             return False
-
-
-# class Stadium(Court):
-#     name: str
-#     common_name: str = None
-#     capacity: int
-#
-#     def __init__(self, width: float, length: float, address: str, year_built: int, name: str
-#                  , capacity: int, common_name: str = None) -> None:
-#         super().__init__(width, length, address, year_built)
-#         self.name = name
-#         self.common_name = common_name
-#         if int(capacity) >= 0:
-#             self.capacity = capacity
-#
-#     def __str__(self):
-#         if self.common_name is None:
-#             return f"{Court.__str__(self)}Nazwa: {self.name}\n" \
-#                    f"Pojemność stadionu: {self.capacity}"
-#         return f"{Court.__str__(self)}Nazwa: {self.name}\nNazwa zwyczajowa:" \
-#                f" {self.common_name}\nPojemność stadionu: {self.capacity}"
-#
-#
-# court_1 = Court(100, 50, "10, 10-100 Olsztyn", 1999)
-# print(court_1)
-# court_2 = Court(100, 50, "10, 10-100 Olsztyn", 1999)
-# print(court_2)
-# court_3 = Court(100, 50, "10, 10-100 Olsztyn", 1999)
-# print(court_3)
-# print(court_1.length)
-# court_1.year_built = 1990
-# print(court_1.year_built)
-# court_1.year_built = 2030
-# print(court_1.year_built)
-# court_1.validate(court_1)
-# print(court_1.year_built)
+print(stadion.validate(stadion))
