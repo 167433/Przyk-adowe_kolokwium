@@ -1,32 +1,32 @@
 import datetime
 
-
 class Court:
-    _width: float = 68
-    _lenght: float = 150
-    _addres: str
-    _year_bulit: int
+    __width: float = 68
+    __lenght: float = 150
+    __addres: str
+    __year_bulit: int
 
-    def __init__(self, width, lenght, addres, year_bulit):
-        if (width >= 45) and (width <= 90):
-            self._width = width
+    def __init__(self, width:float = 68, lenght:float = 150,* ,addres:str, year_bulit:int):
 
-        if (lenght >= 90) and (lenght <= 120):
-            self._lenght = lenght
+        if width>=45 and width<=90:
+            self.__width = width
+        else:
+            self.__width = 68
 
-        self._addres = addres
-        self._year_bulit = year_bulit
+        if lenght >= 90 and lenght <= 120:
+            self.__lenght = lenght
+        else:
+            self.__lenght = 150
 
-    def area(self):
-        return self._lenght * self._width
-
+        self.__addres = addres
+        self.__year_bulit = year_bulit
 
     def __str__(self):
-        return f'Boisko wybudowane w roku {self._year_bulit},' \
-               f' o długości {self._lenght}' \
-               f' metrów i szerokości {self._width} metrów \n' \
-               f'Pole powierzchni {self.area()} \n' \
-               f'Adres: {self._addres}'
+        return f'Boisko wybudowane w roku {self.__year_bulit},' \
+               f' o długości {self.__lenght} ' \
+               f'metrów i szerokości {self.__width} metrów.\n' \
+               f' Pole powierzchni: {self.area()} mkw.\n' \
+               f' Adres: {self.__addres}\n”'
 
     def __eq__(self, other):
         if self.area() == other.area():
@@ -34,106 +34,107 @@ class Court:
         return False
 
     def __ne__(self, other):
-        if self.area() != other.area:
+        if self.area() != other.area():
             return True
         return False
 
-    @property
-    def width_prop(self):
-        return self._width
 
-    @width_prop.setter
-    def width_prop(self,value):
-        if (value >= 90) and (value <= 120):
-            self._width = value
-
-    @width_prop.getter
-    def width_prop(self):
-        return f' {self._width}'
-
-    @property
-    def lenght_prop(self):
-        return self._lenght
-
-    @lenght_prop.setter
-    def lenght_prop(self, value):
-        if (value >= 90) and (value <= 120):
-            self._lenght = value
-
-    @lenght_prop.getter
-    def lenght_prop(self):
-        return f'{self._lenght}'
-
-    @property
-    def adres_prop(self):
-        return self._addres
-
-    @adres_prop.setter
-    def adres_prop(self,value):
-        self._addres = value
-
-    @adres_prop.getter
-    def adres_prop(self):
-        return f'{self._addres}'
-
-    @property
-    def year_bulit(self):
-        return self._year_bulit
-
-    @year_bulit.setter
-    def year_bulit(self,value):
-        self._year_bulit = value
-
-    @year_bulit.getter
-    def year_bulit(self):
-        return f' {self._year_bulit}'
+    def area(self):
+        return self.__lenght*self.__width
 
     @staticmethod
     def validate(self):
         rok = datetime.date.today().year
         rok = int(rok)
-        if int(self._year_bulit) > rok or int(self._year_bulit) < 0:
-            self._year_bulit = rok
-        return self._year_bulit
-    
+        if int(self.__year_bulit) > rok or int(self.__year_bulit) < 0:
+            self.__year_bulit = rok
+        return self.__year_bulit
+
+
+    @property
+    def width_prop(self):
+        return self.__width
+
+    @width_prop.setter
+    def width_prop(self, value):
+        if (value >= 90) and (value <= 120):
+            self.__width = value
+
+    @width_prop.getter
+    def width_prop(self):
+        return f' {self.__width}'
+
+    @property
+    def lenght_prop(self):
+        return self.__lenght
+
+    @lenght_prop.setter
+    def lenght_prop(self, value):
+        if (value >= 90) and (value <= 120):
+            self.__lenght = value
+
+    @lenght_prop.getter
+    def lenght_prop(self):
+        return f'{self.__lenght}'
+
+    @property
+    def adres_prop(self):
+        return self.__addres
+
+    @adres_prop.setter
+    def adres_prop(self, value):
+        self.__addres = value
+
+    @adres_prop.getter
+    def adres_prop(self):
+        return f'{self.__addres}'
+
+    @property
+    def year_bulit(self):
+        return self.__year_bulit
+
+    @year_bulit.setter
+    def year_bulit(self, value):
+        self.__year_bulit = value
+
+    @year_bulit.getter
+    def year_bulit(self):
+        return f' {self.__year_bulit}'
+
+kort = Court(width= 70, lenght= 110, addres="Adres", year_bulit=2005)
+print(kort.area())
+print(kort.validate(kort))
+
+
 class Stadium(Court):
     name: str
     common_name: str
     capacity: int = 0
 
-    def __init__(self,width: int, lenght: int, addres: str,
-                 year_bulit: int, name: str, capacity: int, common_name: str = None):
-        super().__init__(width, lenght, addres, year_bulit)
+    def __init__(self, width:float, lenght: float,addres: str, year_bulit: int, name: str,common_name: str=None,* ,capacity: int):
+        super().__init__(width=width, lenght=lenght, addres=addres, year_bulit=year_bulit)
         self.name = name
         self.common_name = common_name
         self.capacity = capacity
 
-    def __eq__(self, other):
-        if self.area() == other.area() and self.capacity == other.capacity:
-            return True
-        return False
-
-    def __ne__(self, other):
-        if self.area() == other.area() and self.capacity == other.capacity:
-            return False
-        return True
-
     def __str__(self):
-        if self.common_name == None:
-            return f'Boisko wybudowane w roku {self.year_bulit}, o długości {self._lenght}' \
-                   f' metrów i szerokości {self._width} metrów.\n' \
-                   f'Pole powierzchni: {self.area()} mkw.\n' \
-                   f'Adres: {self._addres}\n' \
-                   f'Nazwa: {self.name}\n' \
-                   f'Pojemność stadionu: {self.capacity} osób.'
+        napis = ''
+        string=[f'Boisko wybudowane w roku {self.year_bulit},o długości {self.width_prop} metrów i szerokości {self.lenght_prop} metrów.',
+               f'Pole powierzchni: {self.area()} mkw.\n',
+               f'Adres: {self.adres_prop}\n',
+               f'Nazwa: {self.name}\n',
+               f'Nazwa zwyczajowa: {self.common_name}\n',
+               f'Pojemność stadionu: {self.capacity}']
 
-        return f'Boisko wybudowane w roku {self.year_bulit}, o długości {self._lenght}' \
-            f' metrów i szerokości {self._width} metrów.\n'\
-            f'Pole powierzchni: {self.area()} mkw.\n'\
-            f'Adres: {self._addres}\n'\
-            f'Nazwa: {self.name}\n'\
-            f'Nazwa zwyczajowa: {self.common_name}.\n'\
-            f'Pojemność stadionu: {self.capacity} osób.'
+        if self.common_name is None:
+            string.pop(4)
+            for linia in string:
+                napis = napis+linia
+            return napis
+
+        for linia in string:
+            napis = napis + linia
+        return napis
 
     @property
     def name_prop(self):
@@ -141,50 +142,45 @@ class Stadium(Court):
 
     @name_prop.getter
     def name_prop(self):
-        zablokuj = False
-        if self.name is not str:
-            zablokuj = True
-            return self.name
-    """
-    3 (2pt) Zaimplementuj właściwości (propercje) setter i getter dla każdego atrybutu. 
-    Jeśli dla getterów podane wartości argumentów nie spełniają założeń, 
-    wartość atrybutu nie powinna się zmieniać i powinien zostać wypisany odpowiedni komunikat.
-    
-     Jeśli dla getterów ---- HUH ---- wartość atrybutu nie powinna się zmieniać --- NANI ---
-    """
+        return f'{self.name}'
 
+    @name_prop.setter
+    def name_prop(self,value):
+        if isinstance(value,str):
+            self.name = value
+        else:
+            print("ŹLE TO MA BYĆ STRING!!!")
 
-kort = Court(90, 150, "Tak", '2005')
-kort2 = Court(100,150,"Nie","2000")
-print(kort.year_bulit)
-kort._year_bulit = '-2000'
-kort.validate(kort)
-print(kort.year_bulit)
-print(datetime.date.today().year)
-print(kort)
-if kort == kort2:
-    print("równe")
-else:
-    print("Nie równe")
+    @property
+    def common_name_prop(self):
+        return self.common_name
 
-if kort != kort2:
-    print("Nie równe")
-else:
-    print("Równe")
-print("---")
-print(kort._addres)
-print("---")
+    @common_name_prop.getter
+    def common_name_prop(self):
+        return f'{self.common_name}'
 
-stadion = Stadium(90,120,"ADRES",2000,"Nazwa",1005)
-print(f' {stadion._width} {stadion._lenght} ')
-stadion2 = Stadium(90,120,"Adres",2005,"Nazwa",1005)
-print(f' {stadion2._width} {stadion2._lenght} ')
-print(stadion._addres)
+    @common_name_prop.setter
+    def common_name_prop(self,value):
+        if isinstance(value,str):
+            self.common_name = value
+        else:
+            print("Zły typ danych")
+
+    @property
+    def capacity_prop(self):
+        return self.capacity
+
+    @capacity_prop.getter
+    def capacity_prop(self):
+        return f'{self.capacity}'
+
+    @capacity_prop.setter
+    def capacity_prop(self,value):
+        if isinstance(value,int) and value >= 0:
+            self.capacity = value
+        else:
+            print("Nieprawidłowe dane")
+
+stadion = Stadium(width=90,lenght=90,addres="Adres",year_bulit=2000,name="Nazwa",capacity=1005)
 print(stadion)
-print("---")
-if stadion == stadion2:
-    print("Tak")
-else:
-    print("Nie")
 
-print(stadion.validate(stadion))
